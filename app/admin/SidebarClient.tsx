@@ -1,14 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { Menu, X, LayoutDashboard, LogOut } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import {
+  Menu,
+  X,
+  LayoutDashboard,
+  MapPin,
+  Package,
+  Settings,
+  LogOut,
+  type LucideIcon,
+} from "lucide-react";
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  LayoutDashboard,
+  MapPin,
+  Package,
+  Settings,
+};
 
 interface NavItem {
   href: string;
   label: string;
-  icon: LucideIcon;
+  icon: string;
 }
 
 export function SidebarClient({
@@ -64,17 +79,20 @@ export function SidebarClient({
         </div>
 
         <nav className="flex-1 px-3 space-y-1">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-            >
-              <item.icon className="w-5 h-5" />
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const ItemIcon = ICON_MAP[item.icon];
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+              >
+                {ItemIcon && React.createElement(ItemIcon, { className: "w-5 h-5" })}
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="p-3 border-t border-gray-100">{logoutForm}</div>

@@ -1,15 +1,8 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { signOutAdmin } from "@/lib/actions/auth";
 import { SidebarClient } from "./SidebarClient";
-import {
-  LayoutDashboard,
-  MapPin,
-  Package,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -22,10 +15,10 @@ export default async function AdminLayout({
   }
 
   const navItems = [
-    { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/admin/cities", label: "Cidades", icon: MapPin },
-    { href: "/admin/items", label: "Itens", icon: Package },
-    { href: "/admin/settings", label: "Configurações", icon: Settings },
+    { href: "/admin", label: "Dashboard", icon: "LayoutDashboard" },
+    { href: "/admin/cities", label: "Cidades", icon: "MapPin" },
+    { href: "/admin/items", label: "Itens", icon: "Package" },
+    { href: "/admin/settings", label: "Configurações", icon: "Settings" },
   ];
 
   const logoutForm = (
