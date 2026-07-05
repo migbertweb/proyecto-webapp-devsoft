@@ -6,6 +6,7 @@ import { Plus, Pencil, Trash2, Package, X, Loader2 } from "lucide-react";
 import { createItem, updateItem, deleteItem } from "@/lib/actions/items";
 import { ImageUpload } from "@/components/upload/ImageUpload";
 import { Toast } from "@/components/ui/Toast";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { CATEGORIES, CATEGORY_LABELS, type Category } from "@/lib/categories";
 import { formatPrice } from "@/lib/utils";
 import type { City, TravelItem } from "@prisma/client";
@@ -100,6 +101,7 @@ export function ItemsClient({
   }
 
   const closeToast = useCallback(() => setToast(null), []);
+  const modalRef = useFocusTrap(modalOpen);
 
   return (
     <div>
@@ -211,6 +213,7 @@ export function ItemsClient({
           role="dialog"
           aria-modal="true"
           aria-label={editing ? "Editar Item" : "Novo Item"}
+          ref={modalRef}
         >
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 relative my-8">
             <button
@@ -227,10 +230,11 @@ export function ItemsClient({
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="item-title">
                   Título
                 </label>
                 <input
+                  id="item-title"
                   name="title"
                   defaultValue={editing?.title || ""}
                   required
@@ -242,10 +246,11 @@ export function ItemsClient({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="item-description">
                   Descrição
                 </label>
                 <textarea
+                  id="item-description"
                   name="description"
                   defaultValue={editing?.description || ""}
                   required

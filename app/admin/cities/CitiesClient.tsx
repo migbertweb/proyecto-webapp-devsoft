@@ -6,6 +6,7 @@ import { Plus, Pencil, Trash2, MapPin, X, Loader2 } from "lucide-react";
 import { createCity, updateCity, deleteCity } from "@/lib/actions/cities";
 import { ImageUpload } from "@/components/upload/ImageUpload";
 import { Toast } from "@/components/ui/Toast";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 import type { City } from "@prisma/client";
 
 export function CitiesClient({ cities: initialCities }: { cities: City[] }) {
@@ -82,6 +83,7 @@ export function CitiesClient({ cities: initialCities }: { cities: City[] }) {
   }
 
   const closeToast = useCallback(() => setToast(null), []);
+  const modalRef = useFocusTrap(modalOpen);
 
   return (
     <div>
@@ -185,6 +187,7 @@ export function CitiesClient({ cities: initialCities }: { cities: City[] }) {
           role="dialog"
           aria-modal="true"
           aria-label={editing ? "Editar Cidade" : "Nova Cidade"}
+          ref={modalRef}
         >
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 relative">
             <button
@@ -201,10 +204,11 @@ export function CitiesClient({ cities: initialCities }: { cities: City[] }) {
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="city-name">
                   Nome
                 </label>
                 <input
+                  id="city-name"
                   name="name"
                   defaultValue={editing?.name || ""}
                   required
@@ -218,10 +222,11 @@ export function CitiesClient({ cities: initialCities }: { cities: City[] }) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="city-state">
                   Estado
                 </label>
                 <input
+                  id="city-state"
                   name="state"
                   defaultValue={editing?.state || ""}
                   required
