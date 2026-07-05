@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("TOURIST")
+  createdAt DateTime @default(now())
+  favorites Favorite[]
+}
+
+model City {
+  id         String       @id @default(cuid())
+  name       String
+  state      String
+  image      String?
+  active     Boolean      @default(true)
+  createdAt  DateTime     @default(now())
+  travelItems TravelItem[]
+}
+
+model TravelItem {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  category    String
+  cityId      String
+  city        City     @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  image       String?
+  gallery     String   @default("[]")
+  price       Float    @default(0)
+  whatsapp    String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  favorites   Favorite[]
+}
+
+model Favorite {
+  id     String     @id @default(cuid())
+  userId String
+  itemId String
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item   TravelItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemId])
+}
+
+model Settings {
+  id              String @id @default(cuid())
+  defaultWhatsapp String @default("")
+}
