@@ -1,3 +1,14 @@
+import {
+  MapPin,
+  Utensils,
+  Compass,
+  Package,
+  BedDouble,
+  Car,
+  Star,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
 export const CATEGORIES = [
   "TOURIST_POINT",
   "RESTAURANT",
@@ -18,4 +29,14 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   HOTEL: "Hotel",
   TRANSPORT: "Transporte",
   EXPERIENCE: "Experiência",
+};
+
+export const CATEGORY_ICONS: Record<Category, LucideIcon> = {
+  TOURIST_POINT: MapPin,
+  RESTAURANT: Utensils,
+  TOUR: Compass,
+  PACKAGE: Package,
+  HOTEL: BedDouble,
+  TRANSPORT: Car,
+  EXPERIENCE: Star,
 };

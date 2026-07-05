@@ -19,6 +19,7 @@ export function FavoriteButton({
   const router = useRouter();
   const [favorited, setFavorited] = useState(initialFavorited);
   const [loading, setLoading] = useState(false);
+  const [animating, setAnimating] = useState(false);
 
   async function handleClick(e: React.MouseEvent) {
     e.preventDefault();
@@ -31,8 +32,10 @@ export function FavoriteButton({
 
     setLoading(true);
     await toggleFavorite(itemId);
+    setAnimating(true);
     setFavorited(!favorited);
     setLoading(false);
+    setTimeout(() => setAnimating(false), 400);
   }
 
   return (
@@ -43,13 +46,14 @@ export function FavoriteButton({
         favorited
           ? "bg-red-50 text-brand-red"
           : "bg-white/80 text-gray-600 hover:bg-white hover:text-brand-red"
-      } ${className}`}
+      } ${animating ? "scale-125" : ""} ${className}`}
+      aria-pressed={favorited}
       title={favorited ? "Remover dos favoritos" : "Adicionar aos favoritos"}
     >
       <Heart
-        className={`w-5 h-5 ${favorited ? "fill-current" : ""} ${
+        className={`w-5 h-5 transition-all ${favorited ? "fill-current" : ""} ${
           loading ? "animate-pulse" : ""
-        }`}
+        } ${animating ? "scale-110" : ""}`}
       />
     </button>
   );
