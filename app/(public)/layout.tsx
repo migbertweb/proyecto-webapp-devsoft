@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 import { CityProvider } from "@/components/city/CityProvider";
 import { CitySelectorModal } from "@/components/city/CitySelectorModal";
 import { cookies } from "next/headers";
@@ -34,6 +35,7 @@ export default async function PublicLayout({
     <CityProvider cities={cities} initialCityId={cityId}>
       <Navbar cities={cities} currentCityId={cityId} />
       <main className="min-h-screen">{children}</main>
+      <Footer />
       <CitySelectorModal cities={cities} />
     </CityProvider>
   );

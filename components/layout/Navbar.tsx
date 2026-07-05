@@ -10,6 +10,8 @@ import {
   User,
   LogOut,
   LayoutDashboard,
+  Menu,
+  X,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import type { City } from "@prisma/client";
@@ -25,6 +27,7 @@ export function Navbar({
   const { currentCity, setCurrentCity } = useCity();
   const [cityOpen, setCityOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const cityRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
 
@@ -39,7 +42,8 @@ export function Navbar({
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const displayCity = currentCity || cities.find((c) => c.id === currentCityId) || null;
+  const displayCity =
+    currentCity || cities.find((c) => c.id === currentCityId) || null;
 
   return (
     <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-gray-100">
@@ -54,7 +58,8 @@ export function Navbar({
             </span>
           </Link>
 
-          <div className="flex items-center gap-3">
+          {/* Desktop */}
+          <div className="hidden sm:flex items-center gap-3">
             {displayCity && (
               <div className="relative" ref={cityRef}>
                 <button
@@ -152,7 +157,102 @@ export function Navbar({
               </Link>
             )}
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="sm:hidden p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? (
+              <X className="w-5 h-5 text-gray-600" />
+            ) : (
+              <Menu className="w-5 h-5 text-gray-600" />
+            )}
+          </button>
         </div>
+
+        {/* Mobile drawer */}
+        {mobileOpen && (
+          <div className="sm:hidden pb-4 space-y-3 border-t border-gray-100 pt-4">
+            {/* City selector */}
+            <div className="grid grid-cols-2 gap-2">
+              {displayCity && (
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                  }}
+                  className="col-span-2 flex items-center gap-2 px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-700"
+                >
+                  <MapPin className="w-4 h-4 text-brand-red" />
+                  {displayCity.name}
+                </button>
+              )}
+              {cities.map((city) => (
+                <button
+                  key={city.id}
+                  onClick={() => {
+                    setCurrentCity(city);
+                    setMobileOpen(false);
+                  }}
+                  className={`px-3 py-2 rounded-xl text-sm text-left transition-colors ${
+                    displayCity?.id === city.id
+                      ? "bg-violet-50 text-brand-violet font-medium"
+                      : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                  }`}
+                >
+                  {city.name}
+                </button>
+              ))}
+            </div>
+
+            {/* User menu */}
+            {session?.user ? (
+              <div className="space-y-1 pt-2 border-t border-gray-100">
+                <p className="px-3 text-sm font-medium text-gray-900">
+                  {session.user.name}
+                </p>
+                <Link
+                  href="/favorites"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  <Heart className="w-4 h-4" />
+                  Favoritos
+                </Link>
+                {session.user.role === "ADMIN" && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    Painel Admin
+                  </Link>
+                )}
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    signOut({ callbackUrl: "/" });
+                  }}
+                  className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sair
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="block w-full text-center px-4 py-2.5 rounded-xl bg-brand-violet text-white text-sm font-medium hover:bg-violet-700 transition-colors"
+              >
+                Entrar
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );
