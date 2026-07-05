@@ -39,7 +39,7 @@ export function CitySelectorModal({ cities }: { cities: City[] }) {
                 onClick={() => setCurrentCity(city)}
                 className="flex items-center gap-4 p-4 rounded-2xl border border-gray-200 hover:border-brand-violet hover:bg-violet-50 transition-all text-left group"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-violet to-brand-red flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-xl gradient-brand flex items-center justify-center flex-shrink-0">
                   <MapPin className="w-6 h-6 text-white" />
                 </div>
                 <div>
