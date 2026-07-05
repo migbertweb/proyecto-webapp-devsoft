@@ -32,7 +32,7 @@ export default async function AdminLayout({
       <aside className="w-64 bg-white border-r border-gray-100 flex flex-col">
         <div className="p-6">
           <Link href="/admin" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-violet to-brand-red flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg gradient-brand flex items-center justify-center">
               <LayoutDashboard className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-lg text-gray-900">Admin</span>

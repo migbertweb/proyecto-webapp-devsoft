@@ -18,3 +18,13 @@ body {
     @apply border-gray-200;
   }
 }
+
+@layer components {
+  .btn-gradient {
+    @apply bg-gradient-to-r from-brand-violet to-brand-red text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50;
+  }
+
+  .gradient-brand {
+    @apply bg-gradient-to-br from-brand-violet to-brand-red;
+  }
+}

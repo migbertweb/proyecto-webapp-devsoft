@@ -15,7 +15,7 @@ export default async function SetupPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#F8F7F4] p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-violet to-brand-red flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 rounded-2xl gradient-brand flex items-center justify-center mx-auto mb-4">
             <span className="text-white text-2xl font-bold">D</span>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Configuração Inicial</h1>
