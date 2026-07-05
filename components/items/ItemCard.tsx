@@ -36,6 +36,8 @@ export function ItemCard({
             alt={title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg=="
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-300">

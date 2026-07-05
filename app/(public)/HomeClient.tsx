@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { useCity } from "@/components/city/CityProvider";
 import { ItemCard } from "@/components/items/ItemCard";
 import { EmptyState } from "@/components/empty/EmptyState";
-import { CATEGORIES, CATEGORY_LABELS, type Category } from "@/lib/categories";
+import { CATEGORIES, CATEGORY_LABELS, CATEGORY_ICONS, type Category } from "@/lib/categories";
 import { Search, MapPin, Compass } from "lucide-react";
 import type { City, TravelItem } from "@prisma/client";
 
@@ -91,19 +91,23 @@ export function HomeClient({
           >
             Todos
           </button>
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedCategory === cat
-                  ? "bg-brand-violet text-white shadow-lg"
-                  : "bg-white text-gray-600 hover:bg-gray-50 shadow-sm"
-              }`}
-            >
-              {CATEGORY_LABELS[cat as Category]}
-            </button>
-          ))}
+          {CATEGORIES.map((cat) => {
+                        const CatIcon = CATEGORY_ICONS[cat as Category];
+                        return (
+                          <button
+                            key={cat}
+                            onClick={() => setSelectedCategory(cat)}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-1.5 ${
+                              selectedCategory === cat
+                                ? "bg-brand-violet text-white shadow-lg"
+                                : "bg-white text-gray-600 hover:bg-gray-50 shadow-sm"
+                            }`}
+                          >
+                            {CatIcon && <CatIcon className="w-4 h-4" />}
+                            {CATEGORY_LABELS[cat as Category]}
+                          </button>
+                        );
+                      })}
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { MapPin, Tag, DollarSign, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { FavoriteButton } from "@/components/items/FavoriteButton";
@@ -35,6 +35,15 @@ export function ItemDetailClient({
     setCurrentImage((p) => (p === allImages.length - 1 ? 0 : p + 1));
   }
 
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "ArrowLeft") prevImage();
+      if (e.key === "ArrowRight") nextImage();
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [allImages.length]);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb */}
@@ -58,6 +67,8 @@ export function ItemDetailClient({
                   fill
                   className="object-cover"
                   priority
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg=="
                 />
                 {allImages.length > 1 && (
                   <>
@@ -113,6 +124,8 @@ export function ItemDetailClient({
                     alt={`${item.title} ${i + 1}`}
                     fill
                     className="object-cover"
+                    placeholder="blur"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg=="
                   />
                 </button>
               ))}
@@ -169,7 +182,7 @@ export function ItemDetailClient({
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-green-500 text-white font-semibold hover:bg-green-600 transition-colors"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-violet text-white font-semibold hover:bg-violet-700 transition-colors"
               >
                 <MessageCircle className="w-5 h-5" />
                 Comprar via WhatsApp
